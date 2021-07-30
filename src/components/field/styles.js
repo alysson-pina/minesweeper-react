@@ -6,4 +6,5 @@ export const Cell = styled.div`
   height: 35px;
   background-color: #AFAFAF;
   border: 2px solid black;
+  border-color: ${props => props.mistakeWasHere ? 'red' : 'default'}
 `

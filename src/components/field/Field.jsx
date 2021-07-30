@@ -1,28 +1,58 @@
 
-import React, { useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { Cell } from './styles'
 
-const Field = ({ hasMine, revealNeighborhood, loseGame, index }) => {
+const Field = ({ hasMine, revealNeighborhood, lost, setLost, updateBombCount, index }) => {
   const [clicked, setClicked] = useState(false)
+  const [isFlagged, setFlagged] = useState(false)
+  const [value, setValue] = useState('')
 
-  const handleClick = () => {
-    if(clicked) {
+  useLayoutEffect(() => {
+    if(lost) {
+      setValue(hasMine ? '💣' : '')
+    }
+  }, [lost, hasMine, setValue])
+
+  const handleRightClick = (e) => {
+    e.preventDefault()
+
+    if(lost) {
+      return
+    }
+
+    const newValue = !isFlagged
+
+    updateBombCount(newValue)
+    setFlagged(newValue)
+
+    if(newValue) {
+      setValue('🚩')
+    } else {
+      setValue('')
+    }
+  }
+
+  const handleLeftClick = (e) => {
+    e.preventDefault()
+  
+    if(clicked || lost) {
       return
     }
 
     setClicked(true)
 
     if (hasMine) {
-      loseGame()
+      setValue('💣')
+      setLost(true)
     } else {
-      revealNeighborhood()
+      // show value
+      // revealNeighborhood()
     }
   }
 
   return (
-    <Cell onClick={() => handleClick}>
-      {/* {clicked ? 'X' : ''} */}
-      {/* {hasMine ? '💣' : ''} */}
+    <Cell onClick={handleLeftClick} onContextMenu={handleRightClick} mistakeWasHere={hasMine && clicked}>
+      {value}
     </Cell>
   )
 }
