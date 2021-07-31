@@ -20,7 +20,8 @@ const Board = ({ height, width, bombCount, setBombCount, lost, setLost, structur
             key={`${i}_${j}`} 
             row={i}
             column={j}
-            hasMine={value}
+            hasMine={value === 'B'}
+            value={value}
             lost={lost}
             setLost={setLost}
             updateBombCount={updateBombCount}

@@ -2,20 +2,34 @@
 import React, { useLayoutEffect, useState } from 'react'
 import { Cell } from './styles'
 
-const Field = ({ hasMine, revealNeighborhood, lost, setLost, updateBombCount, row, column }) => {
+const classes = {
+  0: 'zero',
+  1: 'one',
+  2: 'two',
+  3: 'three',
+  4: 'four',
+  5: 'five',
+  6: 'six',
+  7: 'seven',
+  8: 'eigth',
+  B: 'bomb',
+  F: 'flag',
+}
+
+const Field = ({ hasMine, value, revealNeighborhood, lost, setLost, updateBombCount, row, column }) => {
   const [clicked, setClicked] = useState(false)
   const [isFlagged, setFlagged] = useState(false)
-  const [value, setValue] = useState('')
+  const [content, setContent] = useState('unclicked')
 
-  console.log({
-    row, column, hasMine
-  })
+  // console.log({
+  //   row, column, hasMine
+  // })
 
   useLayoutEffect(() => {
     if(lost) {
-      setValue(hasMine ? '💣' : '')
+      setContent(value || 0)
     }
-  }, [lost, hasMine, setValue])
+  }, [lost, setContent, value])
 
   const handleRightClick = (e) => {
     e.preventDefault()
@@ -30,9 +44,9 @@ const Field = ({ hasMine, revealNeighborhood, lost, setLost, updateBombCount, ro
     setFlagged(newValue)
 
     if(newValue) {
-      setValue('🚩')
+      setContent('F')
     } else {
-      setValue('')
+      setContent('unclicked')
     }
   }
 
@@ -46,10 +60,10 @@ const Field = ({ hasMine, revealNeighborhood, lost, setLost, updateBombCount, ro
     setClicked(true)
 
     if (hasMine) {
-      setValue('💣')
+      setContent('B')
       setLost(true)
     } else {
-      // show value
+      setContent(value)
       // revealNeighborhood()
     }
   }
@@ -59,10 +73,8 @@ const Field = ({ hasMine, revealNeighborhood, lost, setLost, updateBombCount, ro
       onClick={handleLeftClick}
       onContextMenu={handleRightClick}
       mistakeWasHere={hasMine && clicked}
-      className={`row${row}_column${column}`}
-    >
-      {value}
-    </Cell>
+      className={`row${row+1}_column${column+1} ${classes[content]}`}
+    />
   )
 }
 
