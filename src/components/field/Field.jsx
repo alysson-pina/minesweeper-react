@@ -1,5 +1,5 @@
 
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Cell } from './styles'
 
 const classes = {
@@ -13,6 +13,7 @@ const classes = {
   7: 'seven',
   8: 'eigth',
   B: 'bomb',
+  MB: 'mistakenBomb',
   F: 'flag',
 }
 
@@ -25,11 +26,18 @@ const Field = ({ hasMine, value, revealNeighborhood, lost, setLost, updateBombCo
   //   row, column, hasMine
   // })
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if(lost) {
-      setContent(value || 0)
+      if(content === 'F') {
+        if(!hasMine) {
+          setContent('MB')
+        }
+      } else {
+        setContent(value || 0)
+      }
     }
-  }, [lost, setContent, value])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lost, hasMine, setContent, value])
 
   const handleRightClick = (e) => {
     e.preventDefault()
@@ -63,7 +71,7 @@ const Field = ({ hasMine, value, revealNeighborhood, lost, setLost, updateBombCo
       setContent('B')
       setLost(true)
     } else {
-      setContent(value)
+      setContent(value || 0)
       // revealNeighborhood()
     }
   }

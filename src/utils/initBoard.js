@@ -12,7 +12,7 @@ export const initStructure = (height, width, bombCount) => {
 
     if(structure[pos].value !== 'B') {
       structure[pos].value = 'B'
-      updateNeighbours(structure, pos, width)
+      updateNeighbours(structure, pos, width, height)
       count += 1
     }
   }
@@ -27,7 +27,7 @@ const get2DIndexFrom1D = (pos, width) => ({
 
 const get1DIndexFrom2D = (i, j, width) => (Number.parseInt(i) + Number.parseInt(j) * width)
 
-const updateNeighbours = (structure, pos, width) => {
+const updateNeighbours = (structure, pos, width, height) => {
   const {i, j} = get2DIndexFrom1D(pos, width)
   const rows = [i - 1, i, i + 1]
   const columns = [j - 1, j, j + 1]
@@ -36,8 +36,15 @@ const updateNeighbours = (structure, pos, width) => {
 
   for(let x in rows) {
     for (let y in columns ) {
+      if(
+        (rows[x] < 0 || columns[y] < 0) ||
+        ( columns[y] >= width || rows[x] >= height )
+      ) {
+        continue
+      }
+
       index1D = get1DIndexFrom2D(rows[x], columns[y], width)
-      if( (x >= 0 && y >= 0) && structure[index1D] && structure[index1D]?.value !== 'B' ) {
+      if( structure[index1D] && structure[index1D]?.value !== 'B' ) {
         nOfBombs = structure[index1D].value
         structure[index1D].value = nOfBombs ? nOfBombs + 1 : 1
       }
