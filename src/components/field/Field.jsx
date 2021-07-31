@@ -2,10 +2,14 @@
 import React, { useLayoutEffect, useState } from 'react'
 import { Cell } from './styles'
 
-const Field = ({ hasMine, revealNeighborhood, lost, setLost, updateBombCount, index }) => {
+const Field = ({ hasMine, revealNeighborhood, lost, setLost, updateBombCount, row, column }) => {
   const [clicked, setClicked] = useState(false)
   const [isFlagged, setFlagged] = useState(false)
   const [value, setValue] = useState('')
+
+  console.log({
+    row, column, hasMine
+  })
 
   useLayoutEffect(() => {
     if(lost) {
@@ -51,7 +55,12 @@ const Field = ({ hasMine, revealNeighborhood, lost, setLost, updateBombCount, in
   }
 
   return (
-    <Cell onClick={handleLeftClick} onContextMenu={handleRightClick} mistakeWasHere={hasMine && clicked}>
+    <Cell 
+      onClick={handleLeftClick}
+      onContextMenu={handleRightClick}
+      mistakeWasHere={hasMine && clicked}
+      className={`row${row}_column${column}`}
+    >
       {value}
     </Cell>
   )
