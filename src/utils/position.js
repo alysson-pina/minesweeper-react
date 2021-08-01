@@ -1,6 +1,8 @@
 export const get2DIndexFrom1D = (pos, width) => ({
-  j: Math.floor(pos / width),
-  i: pos % width
+  i: Math.floor(pos / width),
+  j: pos % width
 })
 
-export const get1DIndexFrom2D = (i, j, width) => (Number.parseInt(i) + Number.parseInt(j) * width)
+export const get1DIndexFrom2D = (column, row, width) => (
+  Number.parseInt(column) + Number.parseInt(row) * width
+)

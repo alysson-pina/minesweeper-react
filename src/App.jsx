@@ -5,11 +5,14 @@ import { Game } from './components'
 
 const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
+    <main className="App">
+      <h1>
+        Modern React Minesweeper <img width='64' src={logo} className='App-logo' alt='react logo'/>
+      </h1>
+      <section className="App-header">
         <Game />
-      </header>
-    </div>
+      </section>
+    </main>
   )
 }
 

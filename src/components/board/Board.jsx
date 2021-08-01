@@ -29,7 +29,7 @@ const Board = ({ bombCount, setBombCount, lost, setLost, structure, width, heigh
           const ref = fieldsRef.current[candidateFieldPos]
 
           setImmediate(
-            () => ref.click()
+            () => ref.click() // async click to avoid infinite loop
           )
       }
     }

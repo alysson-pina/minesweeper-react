@@ -5,3 +5,10 @@ export const Head = styled.div`
   display: flex;
   justify-content: space-between;
 `
+
+export const Face = styled.div`
+  background-image: url('/sprite200.gif');
+  background-position: ${props => props.lost ? '-156px -110px' : '0 -110px' };
+  width: 52px;
+  height: 52px;
+`

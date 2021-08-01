@@ -33,6 +33,10 @@ const Field = React.forwardRef(({
       } else {
         setContent(value || 0)
       }
+    } else {
+      setContent('uncliked')
+      setClicked(false)
+      setFlagged(false)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lost, hasMine, setContent, value])
@@ -40,7 +44,7 @@ const Field = React.forwardRef(({
   const handleRightClick = (e) => {
     e.preventDefault()
 
-    if(lost) {
+    if(clicked || lost) {
       return
     }
 
