@@ -1,12 +1,15 @@
 
 import React, { useRef } from 'react'
 
+
 import { Wrapper } from './styles'
 import { Field } from '..'
 import { get1DIndexFrom2D } from '../../utils/position'
+import { useLargeScreen } from '../../utils/mediaQueries'
 
 const Board = ({ bombCount, setBombCount, lost, setLost, structure, width, height }) => {
   const fieldsRef = useRef([])
+  const isLargeScreen = useLargeScreen()
 
   const updateBombCount = (flagged) => setBombCount(bombCount + (flagged ? -1 : 1))
 
@@ -36,7 +39,7 @@ const Board = ({ bombCount, setBombCount, lost, setLost, structure, width, heigh
   }
 
   return (
-    <Wrapper>
+    <Wrapper isLargeScreen={isLargeScreen}>
       {
         structure?.map(({ i, j, value }) => {
           const pos = get1DIndexFrom2D(j, i, width)
