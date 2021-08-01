@@ -1,32 +1,63 @@
 
-import React, { useState, useMemo } from 'react'
+import React, { useRef } from 'react'
 
 import { Wrapper } from './styles'
 import { Field } from '..'
-// import { initBoard } from '../../utils/initBoard'
+import { get1DIndexFrom2D } from '../../utils/position'
 
-const Board = ({ height, width, bombCount, setBombCount, lost, setLost, structure }) => {
-  const revealNeighborhood = () => {}
+const Board = ({ bombCount, setBombCount, lost, setLost, structure, width, height }) => {
+  const fieldsRef = useRef([])
 
-  console.log({structure})
+  const updateBombCount = (flagged) => setBombCount(bombCount + (flagged ? -1 : 1))
 
-  const updateBombCount = (bool) => setBombCount(bombCount + (bool ? -1 : 1))
+  const revealNeighborhood = (row, column) => {
+    const pos = get1DIndexFrom2D(column, row, width)
+    const columns = [column - 1, column, column + 1]
+    const rows = [row - 1, row, row + 1]
+
+    for(let x in columns) {
+      for (let y in rows ) {
+        const candidateFieldPos = get1DIndexFrom2D(columns[x], rows[y], width)
+        if(
+          (candidateFieldPos === pos) || // avoid same field again
+          (columns[x] < 0 || rows[y] < 0) || // avoid inexistant left or top edges
+          ( rows[y] >= height || columns[x] >= width ) // avoid inexistant right or bottom edges
+          ) {
+            continue
+          }
+
+          const ref = fieldsRef.current[candidateFieldPos]
+
+          setImmediate(
+            () => ref.click()
+          )
+      }
+    }
+  }
 
   return (
     <Wrapper>
       {
-        structure?.map(({ i, j, value }) => (
-          <Field 
-            key={`${i}_${j}`} 
-            row={i}
-            column={j}
-            hasMine={value === 'B'}
-            value={value}
-            lost={lost}
-            setLost={setLost}
-            updateBombCount={updateBombCount}
-          />
-        ))
+        structure?.map(({ i, j, value }) => {
+          const pos = get1DIndexFrom2D(j, i, width)
+
+          return (
+            <Field
+              ref={el => {
+                fieldsRef.current[pos] = el
+              } }
+              key={`${i}_${j}`} 
+              row={i}
+              column={j}
+              hasMine={value === 'B'}
+              value={value}
+              lost={lost}
+              setLost={setLost}
+              updateBombCount={updateBombCount}
+              revealNeighborhood={revealNeighborhood}
+            />
+          )
+        })
       }
     </Wrapper>
   )

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { Cell } from './styles'
 
-const classes = {
+const CLASSES = Object.freeze({
   0: 'zero',
   1: 'one',
   2: 'two',
@@ -15,16 +15,14 @@ const classes = {
   B: 'bomb',
   MB: 'mistakenBomb',
   F: 'flag',
-}
+})
 
-const Field = ({ hasMine, value, revealNeighborhood, lost, setLost, updateBombCount, row, column }) => {
+const Field = React.forwardRef(({ 
+    hasMine, value, lost, setLost, updateBombCount, row, column, revealNeighborhood 
+  }, ref) => {
   const [clicked, setClicked] = useState(false)
   const [isFlagged, setFlagged] = useState(false)
   const [content, setContent] = useState('unclicked')
-
-  // console.log({
-  //   row, column, hasMine
-  // })
 
   useEffect(() => {
     if(lost) {
@@ -67,23 +65,27 @@ const Field = ({ hasMine, value, revealNeighborhood, lost, setLost, updateBombCo
 
     setClicked(true)
 
-    if (hasMine) {
+    if (hasMine) { // user clicked on a bomb
       setContent('B')
       setLost(true)
     } else {
       setContent(value || 0)
-      // revealNeighborhood()
+    }
+
+    if(value === "") { // empty-cell, traverse the DOM
+      revealNeighborhood(row, column)
     }
   }
 
   return (
-    <Cell 
+    <Cell
+      ref={ref}
       onClick={handleLeftClick}
       onContextMenu={handleRightClick}
       mistakeWasHere={hasMine && clicked}
-      className={`row${row+1}_column${column+1} ${classes[content]}`}
+      className={`row${row+1}_column${column+1} ${CLASSES[content]}`}
     />
   )
-}
+})
 
 export default Field
