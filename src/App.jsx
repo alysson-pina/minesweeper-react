@@ -1,18 +1,18 @@
 import logo from './logo.svg'
-import './App.css'
+import { AppHeader, AppMain, AppSection, Logo } from './styles'
 
 import { Game } from './components'
 
 const App = () => {
   return (
-    <main className="App">
-      <h1>
-        Modern React Minesweeper <img width='64' src={logo} className='App-logo' alt='react logo'/>
-      </h1>
-      <section className="App-header">
+    <AppMain>
+      <AppHeader>
+        Modern React Minesweeper <Logo width='64' src={logo} alt='react logo'/>
+      </AppHeader>
+      <AppSection>
         <Game />
-      </section>
-    </main>
+      </AppSection>
+    </AppMain>
   )
 }
 
