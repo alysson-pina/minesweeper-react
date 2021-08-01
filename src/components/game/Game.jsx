@@ -38,7 +38,7 @@ const Game = () => {
     if(isCorrectFlag) {
       setBombsFlaggedCorrect(bombsFlaggedCorrect + increment)
 
-      if((bombsFlaggedCorrect + increment === 0) && bombCount === 0) {
+      if((bombsFlaggedCorrect + increment === 0) && (bombCount + increment === 0)) {
         // here means: no bombs are left, and all flagged fields are indeed bombs 
         setWon(true)
       }
