@@ -31,7 +31,7 @@ const Game = () => {
         <div>{lost ? 'You lost!' : `Attempt #${attempts}`}</div>
       </Head>
       <div
-        onMouseDown={() => { console.log('mousedown'); onMouseDown(true) }}
+        onMouseDown={() => onMouseDown(true)}
         onMouseUp={() => onMouseDown(false)}
       >
         <Board
