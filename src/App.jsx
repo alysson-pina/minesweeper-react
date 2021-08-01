@@ -1,4 +1,4 @@
-import logo from './logo.svg'
+import logo from './assets/logo.svg'
 import { AppHeader, AppMain, AppSection, Logo } from './styles'
 
 import { Game } from './components'

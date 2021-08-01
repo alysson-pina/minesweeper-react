@@ -2,7 +2,7 @@ import { HEIGHT } from '../constants/board'
 import { get1DIndexFrom2D, get2DIndexFrom1D } from './position'
 
 export const initStructure = (width, bombCount) => {
-  const structure = new Array.from(
+  const structure = Array.from(
     { length: HEIGHT * width }, (_, i) => ({
       i: Math.floor(i / width),
       j: i % width,

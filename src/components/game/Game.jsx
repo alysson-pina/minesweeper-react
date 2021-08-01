@@ -23,12 +23,12 @@ const Game = () => {
     setBombsFlaggedCorrect(initialBombCount)
     setLost(false)
     setWon(false)
-    setStructure(initStructure(width, initialBombCount))
-  }, [setBombCount, setLost, initialBombCount, width])
+  }, [setBombCount, setLost, setWon, initialBombCount])
 
   useEffect(() => {
+    setStructure(initStructure(width, initialBombCount))
     restartGame()
-  }, [restartGame, width])
+  }, [initialBombCount, restartGame, width])
 
   const updateBombCount = (flagged, isCorrectFlag) => {
     const increment = flagged ? -1 : 1
@@ -47,6 +47,7 @@ const Game = () => {
 
   const handleFaceClick = () => {
     setAttempts(() => attempts + 1)
+    setStructure(initStructure(width, initialBombCount))
     restartGame()
   }
 
