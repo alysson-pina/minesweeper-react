@@ -15,6 +15,7 @@ const CLASSES = Object.freeze({
   B: 'bomb',
   MB: 'mistakenBomb',
   F: 'flag',
+  U: 'unclicked'
 })
 
 const Field = React.forwardRef(({ 
@@ -22,7 +23,7 @@ const Field = React.forwardRef(({
   }, ref) => {
   const [clicked, setClicked] = useState(false)
   const [isFlagged, setFlagged] = useState(false)
-  const [content, setContent] = useState('unclicked')
+  const [content, setContent] = useState('U')
 
   useEffect(() => {
     if(lost) {
@@ -34,7 +35,7 @@ const Field = React.forwardRef(({
         setContent(value || 0)
       }
     } else {
-      setContent('uncliked')
+      setContent('U')
       setClicked(false)
       setFlagged(false)
     }
@@ -56,14 +57,14 @@ const Field = React.forwardRef(({
     if(newValue) {
       setContent('F')
     } else {
-      setContent('unclicked')
+      setContent('U')
     }
   }
 
   const handleLeftClick = (e) => {
     e.preventDefault()
   
-    if(clicked || lost) {
+    if(clicked || lost || content === 'F') {
       return
     }
 
@@ -85,9 +86,10 @@ const Field = React.forwardRef(({
     <Cell
       ref={ref}
       onClick={handleLeftClick}
-      onContextMenu={handleRightClick}
+      onContextMenu={handleRightClick} // to handle right click
       mistakeWasHere={hasMine && clicked}
       className={`row${row+1}_column${column+1} ${CLASSES[content]}`}
+      data-testid='minefield'
     />
   )
 })
