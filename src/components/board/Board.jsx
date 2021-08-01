@@ -7,11 +7,9 @@ import { Field } from '..'
 import { get1DIndexFrom2D } from '../../utils/position'
 import useBoardPixelWidth from './useBoardPixelWidth'
 
-const Board = ({ bombCount, setBombCount, lost, setLost, structure, width, height }) => {
+const Board = ({ updateBombCount, won, lost, setLost, structure, width, height }) => {
   const fieldsRef = useRef([])
   const computeBoardPixelWidth = useBoardPixelWidth()
-
-  const updateBombCount = (flagged) => setBombCount(bombCount + (flagged ? -1 : 1))
 
   const revealNeighborhood = (row, column) => {
     const pos = get1DIndexFrom2D(column, row, width)
@@ -32,7 +30,7 @@ const Board = ({ bombCount, setBombCount, lost, setLost, structure, width, heigh
           const ref = fieldsRef.current[candidateFieldPos]
 
           setImmediate(
-            () => ref.click() // async click to avoid infinite loop
+            () => ref?.click() // async click to avoid infinite loop
           )
       }
     }
@@ -54,6 +52,7 @@ const Board = ({ bombCount, setBombCount, lost, setLost, structure, width, heigh
               column={j}
               hasMine={value === 'B'}
               value={value}
+              won={won}
               lost={lost}
               setLost={setLost}
               updateBombCount={updateBombCount}

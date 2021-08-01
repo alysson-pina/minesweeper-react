@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState, useMemo } from 'react'
 
-import { Board } from '..'
+import { Board, Face } from '..'
 import { initStructure } from '../../utils/initBoard'
 
-import { Face, Head } from './styles'
+import { Head } from './styles'
 import useBombCount from './useBombCount'
 import useWidth from './useWidth'
 
@@ -14,31 +14,52 @@ const Game = () => {
   const width = useWidth()
   const [attempts, setAttempts] = useState(1)
   const [bombCount, setBombCount] = useState(initialBombCount)
+  const [bombsFlaggedCorrect, setBombsFlaggedCorrect] = useState(initialBombCount)
+  const [won, setWon] = useState(false)
   const [lost, setLost] = useState(false)
   const [mouseDown, onMouseDown] = useState(false)
 
   const structure = useMemo(
-    () => initStructure(HEIGHT, width, bombCount),
+    () => initStructure(HEIGHT, width, initialBombCount),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [attempts, width]
+    [attempts, initialBombCount, width]
   )
 
-  const restartGame = useCallback(fromResize => {
+  const restartGame = useCallback(() => {
     setBombCount(initialBombCount)
-    setAttempts(value => value + fromResize ? 0 : 1)
+    setBombsFlaggedCorrect(initialBombCount)
     setLost(false)
-  }, [setAttempts, setBombCount, setLost, initialBombCount])
+    setWon(false)
+  }, [setBombCount, setLost, initialBombCount])
 
   useEffect(() => {
-    restartGame(true)
+    restartGame()
   }, [restartGame, width])
+
+  const updateBombCount = (flagged, isCorrectFlag) => {
+    const increment = flagged ? -1 : 1
+
+    setBombCount(bombCount + increment)
+
+    if(isCorrectFlag) {
+      setBombsFlaggedCorrect(bombsFlaggedCorrect + increment)
+      if(bombsFlaggedCorrect + increment === 0) {
+        setWon(true)
+      }
+    }
+  }
+
+  const handleFaceClick = () => {
+    setAttempts(() => attempts + 1)
+    restartGame()
+  }
 
   return (
     <div>
       <Head>
         <div>Bombs left: {bombCount}</div>
-        <Face lost={lost} mouseDown={mouseDown} onClick={restartGame} />
-        <div>{lost ? 'You lost!' : `Attempt #${attempts}`}</div>
+        <Face won={won} lost={lost} mouseDown={mouseDown} restartGame={handleFaceClick} />
+        <div>{lost ? 'You lost!' : won? 'You won!' : `Attempt #${attempts}`}</div>
       </Head>
       <div
         onMouseDown={() => onMouseDown(true)}
@@ -46,7 +67,8 @@ const Game = () => {
       >
         <Board
           bombCount={bombCount}
-          setBombCount={setBombCount}
+          updateBombCount={updateBombCount}
+          won={won}
           lost={lost}
           setLost={setLost}
           structure={structure}

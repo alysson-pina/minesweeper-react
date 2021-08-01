@@ -19,7 +19,7 @@ const CLASSES = Object.freeze({
 })
 
 const Field = React.forwardRef(({ 
-    hasMine, value, lost, setLost, updateBombCount, row, column, revealNeighborhood 
+    hasMine, value, won, lost, setLost, updateBombCount, row, column, revealNeighborhood 
   }, ref) => {
   const [clicked, setClicked] = useState(false)
   const [isFlagged, setFlagged] = useState(false)
@@ -45,13 +45,13 @@ const Field = React.forwardRef(({
   const handleRightClick = (e) => {
     e.preventDefault()
 
-    if(clicked || lost) {
+    if(clicked || lost || won) {
       return
     }
 
     const newValue = !isFlagged
 
-    updateBombCount(newValue)
+    updateBombCount(newValue, hasMine)
     setFlagged(newValue)
 
     if(newValue) {
@@ -64,7 +64,7 @@ const Field = React.forwardRef(({
   const handleLeftClick = (e) => {
     e.preventDefault()
   
-    if(clicked || lost || content === 'F') {
+    if(clicked || lost || won || content === 'F') {
       return
     }
 
