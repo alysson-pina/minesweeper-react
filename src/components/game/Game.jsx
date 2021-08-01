@@ -18,19 +18,15 @@ const Game = () => {
   const [won, setWon] = useState(false)
   const [lost, setLost] = useState(false)
   const [mouseDown, onMouseDown] = useState(false)
-
-  const structure = useMemo(
-    () => initStructure(HEIGHT, width, initialBombCount),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [attempts, initialBombCount, width]
-  )
+  const [structure, setStructure] = useState(initStructure(HEIGHT, width, initialBombCount))
 
   const restartGame = useCallback(() => {
     setBombCount(initialBombCount)
     setBombsFlaggedCorrect(initialBombCount)
     setLost(false)
     setWon(false)
-  }, [setBombCount, setLost, initialBombCount])
+    setStructure(initStructure(HEIGHT, width, initialBombCount))
+  }, [setBombCount, setLost, initialBombCount, width])
 
   useEffect(() => {
     restartGame()
@@ -43,7 +39,9 @@ const Game = () => {
 
     if(isCorrectFlag) {
       setBombsFlaggedCorrect(bombsFlaggedCorrect + increment)
-      if(bombsFlaggedCorrect + increment === 0) {
+
+      if((bombsFlaggedCorrect + increment === 0) && bombCount === 0) {
+        // here means: no bombs are left, and all flagged fields are indeed bombs 
         setWon(true)
       }
     }
