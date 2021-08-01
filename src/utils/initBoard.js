@@ -1,8 +1,9 @@
+import { HEIGHT } from '../constants/board'
 import { get1DIndexFrom2D, get2DIndexFrom1D } from './position'
 
-export const initStructure = (height, width, bombCount) => {
+export const initStructure = (width, bombCount) => {
   const structure = Array.from(
-    { length: height * width }, (_, i) => ({
+    { length: HEIGHT * width }, (_, i) => ({
       i: Math.floor(i / width),
       j: i % width,
       value: ''
@@ -13,11 +14,11 @@ export const initStructure = (height, width, bombCount) => {
   let count = 0
 
   while (count < bombCount) {
-    pos = Math.floor((Math.random() * height * width))
+    pos = Math.floor((Math.random() * HEIGHT * width))
 
     if (structure[pos].value !== 'B') {
       structure[pos].value = 'B'
-      updateNeighbours(structure, pos, width, height)
+      updateNeighbours(structure, pos, width)
       count += 1
     }
   }
@@ -25,7 +26,7 @@ export const initStructure = (height, width, bombCount) => {
   return structure
 }
 
-const updateNeighbours = (structure, pos, width, height) => {
+const updateNeighbours = (structure, pos, width) => {
   const { i, j } = get2DIndexFrom1D(pos, width)
   const rows = [i - 1, i, i + 1]
   const columns = [j - 1, j, j + 1]
@@ -36,7 +37,7 @@ const updateNeighbours = (structure, pos, width, height) => {
     for (const y in columns) {
       if (
         (rows[x] < 0 || columns[y] < 0) ||
-        (columns[y] >= width || rows[x] >= height)
+        (columns[y] >= width || rows[x] >= HEIGHT)
       ) {
         continue
       }

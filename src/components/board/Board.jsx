@@ -6,8 +6,9 @@ import { Wrapper } from './styles'
 import { Field } from '..'
 import { get1DIndexFrom2D } from '../../utils/position'
 import useBoardPixelWidth from './useBoardPixelWidth'
+import { HEIGHT } from '../../constants/board'
 
-const Board = ({ updateBombCount, won, lost, setLost, structure, width, height }) => {
+const Board = ({ updateBombCount, won, lost, setLost, structure, width }) => {
   const fieldsRef = useRef([])
   const computeBoardPixelWidth = useBoardPixelWidth()
 
@@ -22,7 +23,7 @@ const Board = ({ updateBombCount, won, lost, setLost, structure, width, height }
         if(
           (candidateFieldPos === pos) || // avoid same field again
           (columns[x] < 0 || rows[y] < 0) || // avoid inexistant left or top edges
-          ( rows[y] >= height || columns[x] >= width ) // avoid inexistant right or bottom edges
+          ( rows[y] >= HEIGHT || columns[x] >= width ) // avoid inexistant right or bottom edges
           ) {
             continue
           }

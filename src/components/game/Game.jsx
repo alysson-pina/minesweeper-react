@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useMemo } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import { Board, Face } from '..'
 import { initStructure } from '../../utils/initBoard'
@@ -6,8 +6,6 @@ import { initStructure } from '../../utils/initBoard'
 import { Head } from './styles'
 import useBombCount from './useBombCount'
 import useWidth from './useWidth'
-
-const HEIGHT = 16
 
 const Game = () => {
   const initialBombCount = useBombCount()
@@ -18,14 +16,14 @@ const Game = () => {
   const [won, setWon] = useState(false)
   const [lost, setLost] = useState(false)
   const [mouseDown, onMouseDown] = useState(false)
-  const [structure, setStructure] = useState(initStructure(HEIGHT, width, initialBombCount))
+  const [structure, setStructure] = useState(initStructure(width, initialBombCount))
 
   const restartGame = useCallback(() => {
     setBombCount(initialBombCount)
     setBombsFlaggedCorrect(initialBombCount)
     setLost(false)
     setWon(false)
-    setStructure(initStructure(HEIGHT, width, initialBombCount))
+    setStructure(initStructure(width, initialBombCount))
   }, [setBombCount, setLost, initialBombCount, width])
 
   useEffect(() => {
@@ -71,7 +69,6 @@ const Game = () => {
           setLost={setLost}
           structure={structure}
           width={width}
-          HEIGHT={HEIGHT}
         />
       </div>
     </div>
