@@ -5,16 +5,18 @@ import Field from '.'
 const TestComponent = ({
   hasMine = false,
   value = 1,
+  won = false,
   lost = false,
+  setLost = jest.fn(),
   row = 0,
   column = 0,
-  setLost = jest.fn(),
   revealNeighborhood = jest.fn(),
   updateBombCount = jest.fn()
 }) => (
     <Field
       hasMine={hasMine}
       value={value}
+      won={won}
       lost={lost}
       row={row}
       column={column}
@@ -83,7 +85,7 @@ describe('Field specs', () => {
 
     expect(field.className).toContain('flag')
     expect(setLost).not.toHaveBeenCalledWith(true)
-    expect(updateBombCount).toHaveBeenCalledWith(true)
+    expect(updateBombCount).toHaveBeenCalledWith(true, false)
   })
 
   it('reverts back to undiscovered state in case of two right clicks', () => {
@@ -98,7 +100,7 @@ describe('Field specs', () => {
 
     expect(field.className).toContain('unclicked')
     expect(field.className).not.toContain('flag')
-    expect(updateBombCount).toHaveBeenCalledWith(false)
+    expect(updateBombCount).toHaveBeenCalledWith(false, false)
   })
 
   it('displays crossed bomb when game ends and it was flagged by mistake', () => {
