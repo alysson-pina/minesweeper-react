@@ -12,7 +12,7 @@ The game is hosted and available to be played at http://alysson-pina.github.io/m
 
 ## Game Snapshots
 
-[Snapshot 1]()
+![Snapshot 1](https://github.com/alysson-pina/minesweeper-react/blob/master/public/screenshots/Screenshot1.jpg)
 
 ## Available Scripts
 
