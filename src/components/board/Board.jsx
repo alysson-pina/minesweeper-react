@@ -1,5 +1,5 @@
 
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 
 import { Wrapper } from './styles'
@@ -87,6 +87,10 @@ const Board = ({ updateBombCount, won, lost, setLost, structure, width }) => {
       handleArrowKeyNavigation(position, e.code)
     }
   }
+
+  useEffect(() => {
+    fieldsRef?.current[0]?.focus()
+  }, [])
 
   return (
     <Wrapper width={computeBoardPixelWidth} onKeyDown={handleKeyDown}>
