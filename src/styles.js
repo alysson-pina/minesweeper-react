@@ -5,7 +5,28 @@ export const AppMain = styled.main`
   text-align: center;
 `
 
-export const AppHeader = styled.h1`
+export const AppTitleStyle = styled.h1`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  margin: 0;
+  padding: 16px 0;
+  width: 100%;
+`
+
+export const AppHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  margin: 0;
+  padding: 16px 0;
+  width: 100%;
+`
+
+export const AppTitle = styled.h1`
   display: flex;
   align-items: center;
   justify-content: center;
