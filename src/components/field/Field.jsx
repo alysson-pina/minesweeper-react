@@ -51,6 +51,7 @@ const Field = React.forwardRef(({
 
     const newValue = !isFlagged
 
+    e.target.focus()
     updateBombCount(newValue, hasMine)
     setFlagged(newValue)
 
@@ -68,6 +69,7 @@ const Field = React.forwardRef(({
       return
     }
 
+    e.target.focus()
     setClicked(true)
 
     if (hasMine) { // user clicked on a bomb
@@ -84,6 +86,7 @@ const Field = React.forwardRef(({
 
   return (
     <Cell
+      tabIndex={0}
       ref={ref}
       onClick={handleLeftClick}
       onContextMenu={handleRightClick} // to handle right click
