@@ -70,6 +70,7 @@ const Game = () => {
           setLost={setLost}
           structure={structure}
           width={width}
+          restartGame={handleFaceClick}
         />
       </div>
     </div>

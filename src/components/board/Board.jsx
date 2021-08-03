@@ -10,7 +10,7 @@ import { HEIGHT } from '../../constants/board'
 import { NAVIGATION_KEYS, createRightClickEventForElement } from '../../utils/mouseEvents'
 import { detectFieldPosition } from '../../utils/fieldDetection'
 
-const Board = ({ updateBombCount, won, lost, setLost, structure, width }) => {
+const Board = ({ updateBombCount, won, lost, setLost, structure, width, restartGame }) => {
   const fieldsRef = useRef([])
   const computeBoardPixelWidth = useBoardPixelWidth()
 
@@ -85,6 +85,8 @@ const Board = ({ updateBombCount, won, lost, setLost, structure, width }) => {
       fieldRef?.click()
     } else if(NAVIGATION_KEYS.indexOf(e.code) >= 0) {
       handleArrowKeyNavigation(position, e.code)
+    } else if(e.code === 'KeyR') {
+      restartGame()
     }
   }
 
