@@ -1,5 +1,5 @@
-import { SMALL, MEDIUM, LARGE } from '../../utils/sizes'
-import useBoardCategory from '../../utils/useBoardCategory'
+import { SMALL, MEDIUM, LARGE } from '../utils/sizes'
+import useBoardCategory from './useBoardCategory'
 
 const useWidth = () => {
   const boardCategory = useBoardCategory()

@@ -5,15 +5,15 @@ import React, { useEffect, useRef } from 'react'
 import { Wrapper } from './styles'
 import { Field } from '..'
 import { get1DIndexFrom2D } from '../../utils/position'
-import useBoardPixelWidth from './useBoardPixelWidth'
 import { HEIGHT } from '../../constants/board'
 import { NAVIGATION_KEYS, createRightClickEventForElement } from '../../utils/mouseEvents'
 import { detectFieldPosition } from '../../utils/fieldDetection'
+import { useBoardPixelWidth } from '../../hooks'
 
 const Board = ({ updateBombCount, won, lost, setLost, structure, width, restartGame }) => {
   const fieldsRef = useRef([])
   const computeBoardPixelWidth = useBoardPixelWidth()
-
+  
   const revealNeighborhood = (row, column) => {
     const pos = get1DIndexFrom2D(column, row, width)
     const columns = [column - 1, column, column + 1]
@@ -108,7 +108,6 @@ const Board = ({ updateBombCount, won, lost, setLost, structure, width, restartG
               key={`${i}_${j}`} 
               row={i}
               column={j}
-              hasMine={value === 'B'}
               value={value}
               won={won}
               lost={lost}

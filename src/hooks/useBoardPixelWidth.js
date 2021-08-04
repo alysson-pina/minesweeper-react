@@ -1,4 +1,4 @@
-import useBoardCategory from '../../utils/useBoardCategory'
+import useBoardCategory from './useBoardCategory'
 
 const useBoardPixelWidth = () => {
   const boardCategory = useBoardCategory()

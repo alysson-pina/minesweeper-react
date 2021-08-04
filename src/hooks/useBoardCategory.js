@@ -1,4 +1,4 @@
-import { useSmallScreen, useLargeScreen } from './mediaQueries'
+import { useSmallScreen, useLargeScreen } from '../utils/mediaQueries'
 
 const useBoardCategory = () => {
   const isLargeScreen = useLargeScreen()

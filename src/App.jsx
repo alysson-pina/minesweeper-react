@@ -2,7 +2,6 @@ import React from 'react'
 import logo from './assets/logo.svg'
 import { AppHeader, AppMain, AppSection, Logo, AppTitleStyle } from './styles'
 
-
 import { Game, Instructions } from './components'
 
 const App = () => {

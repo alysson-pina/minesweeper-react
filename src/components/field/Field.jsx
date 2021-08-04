@@ -18,8 +18,8 @@ const CLASSES = Object.freeze({
   U: 'unclicked'
 })
 
-const Field = React.forwardRef(({ 
-    hasMine, value, won, lost, setLost, updateBombCount, row, column, revealNeighborhood 
+const Field = React.memo(React.forwardRef(({ 
+    value, won, lost, setLost, updateBombCount, row, column, revealNeighborhood 
   }, ref) => {
   const [clicked, setClicked] = useState(false)
   const [isFlagged, setFlagged] = useState(false)
@@ -28,7 +28,7 @@ const Field = React.forwardRef(({
   useEffect(() => {
     if(lost) {
       if(content === 'F') {
-        if(!hasMine) {
+        if(value !== 'B') {
           setContent('MB')
         }
       } else {
@@ -40,7 +40,7 @@ const Field = React.forwardRef(({
       setFlagged(false)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lost, hasMine, setContent, value])
+  }, [lost, setContent, value])
 
   const handleRightClick = (e) => {
     e.preventDefault()
@@ -52,7 +52,7 @@ const Field = React.forwardRef(({
     const newValue = !isFlagged
 
     e.target.focus()
-    updateBombCount(newValue, hasMine)
+    updateBombCount(newValue, value === 'B')
     setFlagged(newValue)
 
     if(newValue) {
@@ -72,7 +72,7 @@ const Field = React.forwardRef(({
     e.target.focus()
     setClicked(true)
 
-    if (hasMine) { // user clicked on a bomb
+    if (value === 'B') { // user clicked on a bomb
       setContent('B')
       setLost(true)
     } else {
@@ -90,11 +90,11 @@ const Field = React.forwardRef(({
       ref={ref}
       onClick={handleLeftClick}
       onContextMenu={handleRightClick} // to handle right click
-      mistakeWasHere={hasMine && clicked}
+      mistakeWasHere={value === 'B' && clicked}
       className={`row${row+1}_column${column+1} ${CLASSES[content]}`}
       data-testid='minefield'
     />
   )
-})
+}))
 
 export default Field

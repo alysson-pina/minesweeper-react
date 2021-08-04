@@ -4,8 +4,7 @@ import { Board, Face } from '..'
 import { initStructure } from '../../utils/initBoard'
 
 import { Head } from './styles'
-import useBombCount from './useBombCount'
-import useWidth from './useWidth'
+import { useBombCount, useWidth } from '../../hooks'
 
 const Game = () => {
   const initialBombCount = useBombCount()

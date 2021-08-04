@@ -1,40 +1,33 @@
 import React from 'react'
-import { Button, Typography, Divider } from '@material-ui/core'
+import { Button, Typography } from '@material-ui/core'
 import { HtmlTooltip } from './styles'
+import { data } from './data'
 
 const Instructions = () => {
   return (
     <div>
       <HtmlTooltip
+        enterTouchDelay={25}
+        leaveTouchDelay={2500}
         title={
-          <React.Fragment>
+          <>
             <Typography color="inherit" variant='h6'>How To Play</Typography>
-              <Typography color="inherit" variant='overline'><b><u>Desktop</u></b></Typography>
-              <Typography color="inherit" variant='subtitle2'>Mouse</Typography>
-              <ul>
-                <li><b>Left click</b> to reveal an empty square</li>
-                <li><b>Righ click</b> to mark/unmark a flag on a square</li>
-                <li><b>Click</b> on the smiley face to reset the game</li>
-              </ul>
-
-              <Typography color="inherit" variant='subtitle2'>Keyboard</Typography>
-
-              <ul>
-                <li><b>Use the arrow keys</b> to go up, down, left or right from the current square</li>
-                <li><b>Press space</b> on the selected square to mark/unmark a flag on it</li>
-                <li><b>Press C or Enter</b> on the selected square to reveal it</li>
-                <li><b>Press R</b> to reset the game</li>
-              </ul>
-
-              <Divider />
-              <Typography color="inherit" variant='overline'><b><u>Mobile</u></b></Typography>
-
-              <ul>
-                <li><b>Single Tap</b> to reveal an empty square</li>
-                <li><b>Long Tap</b> to mark/unmark a flag on a square</li>
-                <li><b>Tap</b> on the smiley face to reset the game</li>
-              </ul>
-          </React.Fragment>
+              {data.map((section, i) => (
+                <React.Fragment key={i}>
+                  <Typography color="inherit" variant='overline'><b><u>{section.overline}</u></b></Typography>
+                  {section.content.map((innerContent, j) => (
+                    <React.Fragment key={j}>
+                      {innerContent.subtitle && <Typography color="inherit" variant='subtitle2'>{innerContent.subtitle}</Typography>}
+                      <ul>
+                        {innerContent.list.map((item, k) => (
+                          <li key={k}><b>{item.bold}</b>{' '}{item.regular}</li>
+                        ))}
+                      </ul>
+                    </React.Fragment>
+                  ))}
+                </React.Fragment>
+              ))}
+          </>
         }
       >
         <Button>How To Play</Button>

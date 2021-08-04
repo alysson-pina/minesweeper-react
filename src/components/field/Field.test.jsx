@@ -3,7 +3,6 @@ import { act, fireEvent, render, screen } from '@testing-library/react'
 import Field from '.'
 
 const TestComponent = ({
-  hasMine = false,
   value = 1,
   won = false,
   lost = false,
@@ -14,7 +13,6 @@ const TestComponent = ({
   updateBombCount = jest.fn()
 }) => (
     <Field
-      hasMine={hasMine}
       value={value}
       won={won}
       lost={lost}
@@ -51,7 +49,7 @@ describe('Field specs', () => {
   it('shows bomb and calls setLost callback', () => {
     const setLost = jest.fn()
 
-    render(<TestComponent hasMine value='B' setLost={setLost} />)
+    render(<TestComponent value='B' setLost={setLost} />)
 
     const field = screen.getByTestId('minefield')
 
